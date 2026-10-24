@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FoodTrail — My Food Diary</title>
+<link rel="stylesheet" href="vendor/maplibre-gl.css">
+<style>
+:root{--ink:#20251f;--muted:#697267;--paper:#f7f7f1;--card:#fff;--green:#2f6b4f;--lime:#d7f08b;--line:#e5e8df;--red:#b43c35;--shadow:0 12px 35px #1d2b1710}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:10px 15px;background:var(--green);color:white;font-weight:700}button.secondary{background:#edf1e8;color:var(--ink)}button.danger{background:#fff0ee;color:var(--red)}button:disabled{opacity:.5;cursor:not-allowed}.hidden{display:none!important}.shell{max-width:1120px;margin:auto;padding:24px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.brand{display:flex;align-items:center;gap:11px;font-size:22px;font-weight:850;letter-spacing:-.6px}.logo{width:42px;height:42px;border-radius:14px;background:var(--lime);display:grid;place-items:center;font-size:23px}.eyebrow{text-transform:uppercase;letter-spacing:1.5px;font-size:11px;color:var(--muted);font-weight:800}.hero{background:#e9f0e3;border-radius:25px;padding:30px;display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:24px}.hero h1{font-size:clamp(28px,4vw,43px);line-height:1.05;letter-spacing:-1.6px;margin:8px 0 10px;max-width:570px}.hero p{color:#596659;margin:0;max-width:520px}.hero-mark{font-size:70px;line-height:1;transform:rotate(-8deg)}.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.search{flex:1;min-width:180px}.field{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 13px;background:white;color:var(--ink);outline:none}.field:focus{border-color:#6d9879;box-shadow:0 0 0 3px #2f6b4f18}label{display:block;font-weight:750;font-size:13px;margin:0 0 6px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.restaurant{background:var(--card);border:1px solid var(--line);border-radius:19px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0}.cover{height:175px;background:#e7eadd;position:relative;display:grid;place-items:center;overflow:hidden}.cover img{width:100%;height:100%;object-fit:cover}.cover .placeholder{font-size:42px}.pin{position:absolute;right:12px;top:12px;background:#ffffffed;color:var(--green);border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}.restaurant-body{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}.restaurant h3{margin:0;font-size:19px;line-height:1.2;letter-spacing:-.3px}.location{color:var(--muted);font-size:13px}.stars{color:#bc7c12;letter-spacing:1px;font-size:15px}.desc{color:#555f54;margin:2px 0 6px;white-space:pre-wrap;overflow-wrap:anywhere}.photos{display:flex;gap:6px;flex-wrap:wrap}.photos img{width:48px;height:48px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}.actions{display:flex;gap:8px;margin-top:auto;padding-top:6px}.actions button{flex:1;padding:8px 10px;font-size:13px}.empty{grid-column:1/-1;text-align:center;padding:55px 20px;background:white;border:1px dashed #cbd4c6;border-radius:20px}.empty .big{font-size:44px}.empty h3{margin:8px 0}.empty p{color:var(--muted)}.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:19px}.stat{background:white;border:1px solid var(--line);border-radius:13px;padding:11px 15px;min-width:115px}.stat strong{display:block;font-size:21px}.stat span{font-size:12px;color:var(--muted)}.modal-backdrop{position:fixed;inset:0;background:#1017108a;display:grid;place-items:center;padding:16px;z-index:20;overflow:auto}.modal{background:var(--paper);width:min(720px,100%);max-height:94vh;overflow:auto;border-radius:22px;padding:24px;box-shadow:0 25px 80px #0003}.modal-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}.modal h2{margin:0;letter-spacing:-.6px}.close{background:#e8ece4;color:#263226;padding:8px 12px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.full{grid-column:1/-1}.rating-buttons{display:flex;gap:6px}.rating-buttons button{font-size:24px;background:transparent;color:#c6c9bf;padding:0 3px}.rating-buttons button.active{color:#c18417}.preview-list{display:flex;flex-wrap:wrap;gap:9px}.preview-item{position:relative}.preview-item img{width:78px;height:78px;object-fit:cover;border-radius:10px}.preview-item button{position:absolute;top:-7px;right:-7px;border-radius:50%;padding:1px 7px;background:#222}.map-wrap{height:260px;min-height:260px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#e9eee6;display:block;text-align:left;padding:0;position:relative}.map-wrap #map{width:100%;height:100%;min-height:260px;padding:0;margin:0;text-align:left;display:block}.offline-map-notice{font-size:12px;color:var(--muted);margin:6px 0 0}.maplibregl-ctrl-attrib{font-size:10px!important}.map-note{font-size:12px;color:var(--muted);margin-top:6px}.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at top right,#e0edcf,transparent 42%),var(--paper)}.auth-card{width:min(430px,100%);background:white;border:1px solid var(--line);border-radius:24px;padding:30px;box-shadow:var(--shadow)}.auth-card h1{font-size:30px;letter-spacing:-1px;margin:18px 0 5px}.auth-card p{color:var(--muted);margin-top:0}.auth-form{display:grid;gap:14px}.auth-switch{text-align:center;margin-top:17px;font-size:13px;color:var(--muted)}.linkbtn{background:transparent;color:var(--green);padding:0}.notice{padding:11px 13px;background:#fff5d9;color:#6e5414;border-radius:11px;font-size:12px;margin-top:16px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#202820;color:white;border-radius:12px;padding:11px 16px;z-index:40;box-shadow:var(--shadow);max-width:90vw}.footer{text-align:center;color:var(--muted);font-size:12px;padding:28px 0 8px}.map-link{font-size:12px;color:var(--green);font-weight:800;text-decoration:none}.badge{display:inline-flex;background:#f0f3e9;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:800;color:#486148}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-mark{font-size:48px}}@media(max-width:590px){.shell{padding:15px}.hero{padding:22px}.hero-mark{display:none}.grid{grid-template-columns:1fr}.cover{height:205px}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.topbar{align-items:flex-start}.topbar .secondary{font-size:12px;padding:8px}.modal{padding:18px}.stats{gap:7px}.stat{flex:1;min-width:95px}}
+</style>
+</head>
+<body>
+<div id="auth" class="auth-wrap">
+  <div class="auth-card">
+    <div class="brand"><div class="logo">🍜</div> FoodTrail</div>
+    <h1 id="authTitle">Your personal food diary.</h1>
+    <p id="authSubtitle">Save the places you love, one meal at a time.</p>
+    <form id="authForm" class="auth-form">
+      <div><label for="authUsername">Username</label><input class="field" id="authUsername" autocomplete="username" required minlength="3" maxlength="24" placeholder="e.g. foodlover"></div>
+      <div><label for="authPassword">Password</label><input class="field" id="authPassword" type="password" autocomplete="current-password" required minlength="4" placeholder="At least 4 characters"></div>
+      <button id="authSubmit" type="submit">Log in</button>
+    </form>
+    <div class="auth-switch"><span id="authSwitchText">New to FoodTrail?</span> <button class="linkbtn" id="authSwitch" type="button">Create an account</button></div>
+    <div class="notice">Local-only mode: accounts and diary entries are saved in this browser on this device. This is a personal prototype, not secure multi-user authentication. Do not use a password you use elsewhere.</div>
+  </div>
+</div>
+<div id="app" class="hidden">
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><div class="logo">🍜</div><div>FoodTrail <div class="eyebrow">Your food, your story</div></div></div>
+      <div style="display:flex;align-items:center;gap:10px"><span id="welcome" class="badge"></span><button class="secondary" id="exportBtn" title="Download a backup">Export backup</button><button class="secondary" id="logoutBtn">Log out</button></div>
+    </header>
+    <section class="hero">
+      <div><div class="eyebrow">A little taste of everywhere</div><h1>Every great meal deserves a place in your story.</h1><p>Keep track of your favorite restaurants, the dishes you remember, and the places you want to return to.</p></div><div class="hero-mark">🥢</div>
+    </section>
+    <div class="stats">
+      <div class="stat"><strong id="statCount">0</strong><span>Places logged</span></div>
+      <div class="stat"><strong id="statRating">—</strong><span>Average rating</span></div>
+      <div class="stat"><strong id="statPinned">0</strong><span>Map pins</span></div>
+    </div>
+    <div class="toolbar"><input class="field search" id="search" placeholder="Search restaurants, locations, or notes…"><select class="field" id="sort" style="width:auto;min-width:145px"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="rating">Highest rated</option><option value="name">Name A–Z</option></select><button id="addBtn">＋ Add a place</button><button class="secondary" id="importBtn">Import backup</button><input id="importFile" type="file" accept=".json,application/json" class="hidden"></div>
+    <main id="restaurantGrid" class="grid"></main>
+    <div class="footer">FoodTrail stores data in this browser only. Export a backup regularly so you can move or restore your diary.</div>
+  </div>
+</div>
+<div id="modalRoot"></div><div id="toast" class="toast hidden"></div>
+<script src="vendor/maplibre-gl.js"></script>
+<script src="vendor/pmtiles.js"></script>
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+const USERS_KEY = 'foodtrail_local_users_v1';
+const DATA_KEY = 'foodtrail_local_entries_v1';
+let currentUser = null, authMode = 'login', editingId = null, draftImages = [], selectedRating = 0, mapInstance = null, mapMarker = null, toastTimer;
+const safe = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const getUsers = () => { try { return JSON.parse(localStorage.getItem(USERS_KEY) || '{}'); } catch { return {}; } };
+const getAllData = () => { try { return JSON.parse(localStorage.getItem(DATA_KEY) || '{}'); } catch { return {}; } };
+const saveAllData = obj => localStorage.setItem(DATA_KEY, JSON.stringify(obj));
+const entries = () => (getAllData()[currentUser] || []);
+const saveEntries = list => { const all = getAllData(); all[currentUser] = list; saveAllData(all); render(); };
+function toast(message) { $('toast').textContent = message; $('toast').classList.remove('hidden'); clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').classList.add('hidden'), 2600); }
+function switchAuth(mode) { authMode = mode; const login = mode === 'login'; $('authTitle').textContent = login ? 'Your personal food diary.' : 'Start your food story.'; $('authSubtitle').textContent = login ? 'Save the places you love, one meal at a time.' : 'Create a local account to keep your restaurant memories together.'; $('authSubmit').textContent = login ? 'Log in' : 'Create account'; $('authSwitchText').textContent = login ? 'New to FoodTrail?' : 'Already have an account?'; $('authSwitch').textContent = login ? 'Create an account' : 'Log in instead'; $('authPassword').autocomplete = login ? 'current-password' : 'new-password'; }
+$('authSwitch').onclick = () => switchAuth(authMode === 'login' ? 'signup' : 'login');
+$('authForm').onsubmit = e => { e.preventDefault(); const username = $('authUsername').value.trim().toLowerCase(), password = $('authPassword').value; const users = getUsers(); if (!/^[a-z0-9_.-]{3,24}$/.test(username)) return toast('Use 3–24 letters, numbers, dots, underscores, or hyphens for the username.'); if (authMode === 'signup') { if (password.length < 4) return toast('Password must be at least 4 characters.'); if (users[username]) return toast('That username already exists.'); users[username] = password; localStorage.setItem(USERS_KEY, JSON.stringify(users)); currentUser = username; toast('Account created. Welcome to FoodTrail!'); enterApp(); } else { if (!users[username] || users[username] !== password) return toast('Username or password is incorrect.'); currentUser = username; enterApp(); } };
+function enterApp() { $('auth').classList.add('hidden'); $('app').classList.remove('hidden'); $('welcome').textContent = '@' + currentUser; render(); }
+$('logoutBtn').onclick = () => { currentUser = null; $('app').classList.add('hidden'); $('auth').classList.remove('hidden'); $('authPassword').value = ''; switchAuth('login'); };
+$('addBtn').onclick = () => openEditor();
+$('search').oninput = render; $('sort').onchange = render;
+function render() {
+ if (!currentUser) return;
+ const all = entries(), query = $('search').value.trim().toLowerCase(), sort = $('sort').value;
+ let list = all.filter(x => [x.name,x.location,x.description].join(' ').toLowerCase().includes(query));
+ list.sort((a,b) => sort==='oldest' ? a.created-b.created : sort==='rating' ? b.rating-a.rating : sort==='name' ? a.name.localeCompare(b.name) : b.created-a.created);
+ $('statCount').textContent = all.length; $('statPinned').textContent = all.filter(x => Number.isFinite(x.lat) && Number.isFinite(x.lng)).length; $('statRating').textContent = all.length ? (all.reduce((s,x)=>s+x.rating,0)/all.length).toFixed(1) + ' ★' : '—';
+ const grid = $('restaurantGrid');
+ if (!list.length) { grid.innerHTML = `<div class="empty"><div class="big">${all.length ? '🔎' : '🍽️'}</div><h3>${all.length ? 'No matching places' : 'Your diary starts here'}</h3><p>${all.length ? 'Try another search term.' : 'Add your first restaurant to remember the food, the feeling, and the place.'}</p>${all.length ? '' : '<button id="emptyAdd">＋ Add your first place</button>'}</div>`; const emptyAdd = document.getElementById('emptyAdd'); if (emptyAdd) emptyAdd.onclick = () => openEditor(); return; }
+ grid.innerHTML = list.map(x => `<article class="restaurant"><div class="cover">${x.images?.length ? `<img src="${x.images[0]}" alt="${safe(x.name)}">` : '<div class="placeholder">🍲</div>'}${x.lat != null && x.lng != null ? '<span class="pin">📍 Pinned</span>' : ''}</div><div class="restaurant-body"><h3>${safe(x.name)}</h3><div class="location">📍 ${safe(x.location || 'Location not added')}</div><div class="stars">${'★'.repeat(x.rating)}<span style="color:#d8dbd1">${'★'.repeat(5-x.rating)}</span> <span style="color:#6a7168;font-size:12px;letter-spacing:0"> ${x.rating}/5</span></div><p class="desc">${safe(x.description || 'No notes yet.')}</p>${x.images?.length > 1 ? `<div class="photos">${x.images.slice(1,5).map(src=>`<img src="${src}" alt="Restaurant photo">`).join('')}${x.images.length>5?`<span class="badge">+${x.images.length-5}</span>`:''}</div>` : ''}${x.lat != null && x.lng != null ? `<a class="map-link" href="https://www.openstreetmap.org/?mlat=${x.lat}&mlon=${x.lng}#map=16/${x.lat}/${x.lng}" target="_blank" rel="noopener">Open pinned location ↗</a>` : ''}<div class="actions"><button class="secondary" data-edit="${x.id}">Edit</button><button class="danger" data-delete="${x.id}">Delete</button></div></div></article>`).join('');
+ grid.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>openEditor(b.dataset.edit));
+ grid.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteEntry(b.dataset.delete));
+}
+function deleteEntry(id) { const item = entries().find(x=>x.id===id); if (!item || !confirm(`Delete "${item.name}" and its photos from this browser?`)) return; saveEntries(entries().filter(x=>x.id!==id)); toast('Restaurant deleted.'); }
+function openEditor(id) {
+ editingId = id || null; const old = id ? entries().find(x=>x.id===id) : null; draftImages = [...(old?.images || [])]; selectedRating = old?.rating || 0;
+ $('modalRoot').innerHTML = `<div class="modal-backdrop" id="modalBackdrop"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="formTitle"><div class="modal-head"><div><div class="eyebrow">${old?'Update your memory':'Add to your diary'}</div><h2 id="formTitle">${old?'Edit restaurant':'A new food memory'}</h2></div><button class="close" id="closeModal" type="button">✕</button></div><form id="entryForm"><div class="form-grid"><div><label for="rName">Restaurant name *</label><input class="field" id="rName" required maxlength="100" value="${safe(old?.name||'')}" placeholder="e.g. Sunday brunch spot"></div><div><label for="rLocation">Location / address</label><input class="field" id="rLocation" maxlength="180" value="${safe(old?.location||'')}" placeholder="City, neighborhood, or address"></div><div class="full"><label>Your rating *</label><div class="rating-buttons" id="ratingButtons">${[1,2,3,4,5].map(n=>`<button type="button" data-rating="${n}" class="${n<=selectedRating?'active':''}" aria-label="${n} stars">★</button>`).join('')}</div><div class="map-note">Choose from 1 to 5 stars.</div></div><div class="full"><label for="rDescription">Review / notes</label><textarea class="field" id="rDescription" rows="3" maxlength="2000" placeholder="What did you order? What made it memorable?">${safe(old?.description||'')}</textarea></div><div class="full"><label for="rImages">Food and restaurant photos</label><input class="field" id="rImages" type="file" accept="image/*" multiple><div class="map-note">Photos are resized to save browser space. Keep each restaurant to around 5 photos for best performance.</div><div id="imagePreview" class="preview-list" style="margin-top:10px"></div></div><div class="full"><label>Pin the location on a map (optional)</label><div class="form-grid" style="grid-template-columns:1fr auto;gap:8px"><input class="field" id="rSearchLocation" placeholder="Enter a place or address to find coordinates"><button class="secondary" id="findLocation" type="button">Find on map</button></div><div class="map-wrap" style="margin-top:10px"><div id="map"><div><div style="font-size:32px">📍</div><strong>Map preview</strong><p class="map-note">Use “Find on map” or enter coordinates below. Map tiles need an internet connection.</p></div></div></div><div class="form-grid" style="margin-top:10px"><div><label for="rLat">Latitude</label><input class="field" id="rLat" type="number" step="any" value="${old?.lat ?? ''}" placeholder="e.g. 10.6765"></div><div><label for="rLng">Longitude</label><input class="field" id="rLng" type="number" step="any" value="${old?.lng ?? ''}" placeholder="e.g. 122.9509"></div></div><div class="map-note">Click the map to place a pin. “Find on map” uses OpenStreetMap search when online.</div></div></div><div style="display:flex;justify-content:flex-end;gap:9px;margin-top:22px"><button class="secondary" id="cancelEdit" type="button">Cancel</button><button type="submit">${old?'Save changes':'Save restaurant'}</button></div></form></section></div>`;
+ $('closeModal').onclick = closeEditor; $('cancelEdit').onclick = closeEditor; $('modalBackdrop').onclick = e => { if(e.target.id==='modalBackdrop') closeEditor(); };
+ $('ratingButtons').querySelectorAll('button').forEach(b=>b.onclick=()=>{selectedRating=Number(b.dataset.rating);$('ratingButtons').querySelectorAll('button').forEach(btn=>btn.classList.toggle('active',Number(btn.dataset.rating)<=selectedRating));});
+ $('rImages').onchange = async e => { const files=[...e.target.files]; for(const f of files){if(!f.type.startsWith('image/'))continue; if(draftImages.length>=8){toast('Maximum 8 photos per restaurant.');break;} try{draftImages.push(await resizeImage(f));}catch{toast('Could not load one of the selected photos.');} } e.target.value=''; renderPreviews(); };
+ renderPreviews();
+ $('entryForm').onsubmit = e => { e.preventDefault(); if(!selectedRating) return toast('Please choose a star rating.'); const latText=$('rLat').value, lngText=$('rLng').value, lat=latText===''?null:Number(latText), lng=lngText===''?null:Number(lngText); if((lat===null)!==(lng===null))return toast('Enter both latitude and longitude, or leave both blank.'); if(lat!==null&&(!Number.isFinite(lat)||lat < -90||lat>90||lng < -180||lng>180))return toast('Please enter valid latitude and longitude.'); const list=entries(), oldItem=list.find(x=>x.id===editingId); const item={id:editingId||crypto.randomUUID?.()||String(Date.now()),name:$('rName').value.trim(),location:$('rLocation').value.trim(),rating:selectedRating,description:$('rDescription').value.trim(),images:draftImages,lat,lng,created:oldItem?.created||Date.now(),updated:Date.now()}; if(!item.name)return toast('Restaurant name is required.'); const next=editingId?list.map(x=>x.id===editingId?item:x):[item,...list]; try{saveEntries(next);closeEditor();toast(editingId?'Changes saved.':'Restaurant added to your diary.');}catch(err){toast('Browser storage is full. Remove some photos or export and clear old entries.');} };
+ initMap(old);
+}
+function renderPreviews(){const el=$('imagePreview');if(!el)return;el.innerHTML=draftImages.map((src,i)=>`<div class="preview-item"><img src="${src}" alt="Photo ${i+1}"><button type="button" data-remove-image="${i}" aria-label="Remove photo">×</button></div>`).join('')||'<span class="map-note">No photos added yet.</span>';el.querySelectorAll('[data-remove-image]').forEach(b=>b.onclick=()=>{draftImages.splice(Number(b.dataset.removeImage),1);renderPreviews();});}
+function resizeImage(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onerror=reject;reader.onload=()=>{const img=new Image();img.onerror=reject;img.onload=()=>{const max=1200,scale=Math.min(1,max/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas.toDataURL('image/jpeg',.78));};img.src=reader.result;};reader.readAsDataURL(file);});}
+function closeEditor(){ $('modalRoot').innerHTML=''; if(mapInstance){mapInstance.remove();mapInstance=null;mapMarker=null;} editingId=null; draftImages=[]; }
+function initMap(old){
+ const latInput=$('rLat'),lngInput=$('rLng'),findBtn=$('findLocation');
+ const hasCoords=!!(old&&old.lat!=null&&old.lng!=null);
+ const showMapMessage=(title,message)=>{const el=$('map');if(el)el.innerHTML=`<div style="padding:16px;text-align:center;color:#344334"><div style="font-size:30px">🗺️</div><strong>${title}</strong><p class="map-note">${message}</p></div>`;};
+ function setPin(lat,lng,move=true){
+   if(!Number.isFinite(lat)||!Number.isFinite(lng)||lat < -90||lat>90||lng < -180||lng>180)return;
+   latInput.value=lat.toFixed(6);lngInput.value=lng.toFixed(6);
+   if(mapInstance){if(mapMarker)mapMarker.setLngLat([lng,lat]);else{const el=document.createElement('div');el.style.cssText='width:18px;height:18px;background:#2f6b4f;border:3px solid white;border-radius:50%;box-shadow:0 1px 5px #0008';mapMarker=new maplibregl.Marker({element:el}).setLngLat([lng,lat]).addTo(mapInstance);}if(move)mapInstance.flyTo({center:[lng,lat],zoom:15,duration:350});}
+ }
+ async function build(){
+   if(!$('map'))return;
+   if(!window.maplibregl||!window.pmtiles){showMapMessage('Offline map libraries not installed','Run setup-offline-map.ps1 once while connected to the internet, then restart FoodTrail.');return;}
+   try{
+     const check=await fetch('/philippines.pmtiles',{method:'HEAD'});
+     if(!check.ok)throw new Error('Offline map file is missing');
+     if(!window.foodTrailPmtilesProtocol){window.foodTrailPmtilesProtocol=new pmtiles.Protocol();maplibregl.addProtocol('pmtiles',window.foodTrailPmtilesProtocol.tile);}
+     const center=hasCoords?[Number(old.lng),Number(old.lat)]:[121.0,12.2];
+     $('map').innerHTML='';
+     mapInstance=new maplibregl.Map({
+       container:'map',center,zoom:hasCoords?15:5.2,minZoom:3,maxZoom:15,
+       attributionControl:true,
+       style:{version:8,glyphs:'http://127.0.0.1:8765/fonts/{fontstack}/{range}.pbf',
+         sources:{basemap:{type:'vector',url:'pmtiles://http://127.0.0.1:8765/philippines.pmtiles',attribution:'© OpenStreetMap contributors'}},
+         layers:[
+           {id:'background',type:'background',paint:{'background-color':'#f5f5ed'}},
+           {id:'earth',type:'fill',source:'basemap','source-layer':'earth',paint:{'fill-color':'#f5f5ed'}},
+           {id:'landcover',type:'fill',source:'basemap','source-layer':'landcover',paint:{'fill-color':['match',['get','kind'],['forest','#d8e8cd'],['grassland','#e4edcf'],['scrub','#dfe7c9'],['farmland','#eee9cc'],'#e8eddd'],'fill-opacity':0.8}},
+           {id:'landuse',type:'fill',source:'basemap','source-layer':'landuse',paint:{'fill-color':['match',['get','kind'],['park','national_park','nature_reserve','garden','#cfe5c4'],['forest','wood','#d6e7ce'],['water','#c8e2ee'],['residential','#eeeae0'],'#e4e9dc'],'fill-opacity':0.75}},
+           {id:'water',type:'fill',source:'basemap','source-layer':'water',paint:{'fill-color':'#b9dce9'}},
+           {id:'water-lines',type:'line',source:'basemap','source-layer':'water',filter:['match',['get','kind_detail'],['canal','ditch','drain','river','riverbank','stream'],true,false],paint:{'line-color':'#a8d2e2','line-width':['interpolate',['linear'],['zoom'],5,0.5,13,2.3]}},
+           {id:'buildings',type:'fill',source:'basemap','source-layer':'buildings',minzoom:13,paint:{'fill-color':'#ddd8cd','fill-outline-color':'#c9c2b5','fill-opacity':0.8}},
+           {id:'roads-casing',type:'line',source:'basemap','source-layer':'roads',filter:['match',['get','kind'],['highway','major_road','minor_road'],true,false],paint:{'line-color':'#d2cbbd','line-width':['interpolate',['linear'],['zoom'],5,0.7,10,2.3,15,5.5]}},
+           {id:'roads',type:'line',source:'basemap','source-layer':'roads',filter:['match',['get','kind'],['highway','major_road','minor_road','path'],true,false],paint:{'line-color':['match',['get','kind'],['highway'],'#f4c982',['major_road'],'#fffdf6',['minor_road'],'#fffdf8','#e7e2d9'],'line-width':['interpolate',['linear'],['zoom'],5,0.35,10,1.2,15,3.3]}},
+           {id:'boundaries',type:'line',source:'basemap','source-layer':'boundaries',paint:{'line-color':'#b6a9a2','line-width':0.8,'line-dasharray':[2,2]}},
+           {id:'places',type:'symbol',source:'basemap','source-layer':'places',layout:{'text-field':['coalesce',['get','name:en'],['get','name']],'text-font':['Open Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],3,10,8,13,13,15],'text-max-width':9},paint:{'text-color':'#465448','text-halo-color':'#f8f7ef','text-halo-width':1.3}},
+           {id:'poi-labels',type:'symbol',source:'basemap','source-layer':'pois',minzoom:13,layout:{'text-field':['coalesce',['get','name:en'],['get','name']],'text-font':['Open Sans Regular'],'text-size':10,'text-max-width':8},paint:{'text-color':'#526052','text-halo-color':'#fffdf6','text-halo-width':1.2}}
+         ]}
+     });
+     mapInstance.addControl(new maplibregl.NavigationControl({showCompass:true}),'top-right');
+     mapInstance.on('click',e=>setPin(e.lngLat.lat,e.lngLat.lng,false));
+     mapInstance.on('load',()=>{if(hasCoords)setPin(Number(old.lat),Number(old.lng),false);setTimeout(()=>mapInstance&&mapInstance.resize(),200);});
+     mapInstance.on('error',e=>{if(e&&e.error)console.warn('Offline map:',e.error.message);});
+     latInput.onchange=lngInput.onchange=()=>{if(latInput.value!==''&&lngInput.value!=='')setPin(Number(latInput.value),Number(lngInput.value),true);};
+   }catch(err){showMapMessage('Offline map not ready','Run setup-offline-map.ps1 while online to download the Philippines map package. Your saved restaurant data and coordinate fields are unaffected.');}
+ }
+ findBtn.onclick=async()=>{
+   const q=$('rSearchLocation').value.trim()||$('rLocation').value.trim();if(!q)return toast('Enter a place or address first.');
+   findBtn.disabled=true;findBtn.textContent='Searching…';
+   try{const response=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q='+encodeURIComponent(q),{headers:{'Accept-Language':'en'}});if(!response.ok)throw new Error('Search service unavailable');const results=await response.json();if(!results.length)toast('No location found. Try a more specific address.');else{const lat=Number(results[0].lat),lng=Number(results[0].lon);setPin(lat,lng);if(mapInstance)mapInstance.flyTo({center:[lng,lat],zoom:15});toast('Location pinned.');}}
+   catch(err){toast('Address search needs internet. Offline: click the map or enter latitude and longitude manually.');}
+   finally{findBtn.disabled=false;findBtn.textContent='Find on map';}
+ };
+ build();
+}
+$('exportBtn').onclick=()=>{const payload={app:'FoodTrail local backup',version:1,exportedAt:new Date().toISOString(),username:currentUser,entries:entries()};downloadBlob(JSON.stringify(payload,null,2),`foodtrail-${currentUser}-backup.json`,'application/json');toast('Backup downloaded.');};
+function downloadBlob(content,name,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{const data=JSON.parse(await file.text());const list=Array.isArray(data)?data:data.entries;if(!Array.isArray(list))throw Error('Invalid backup');if(!confirm(`Import ${list.length} restaurant entries? This will add them to your current diary.`))return;const existing=entries(),ids=new Set(existing.map(x=>x.id));const cleaned=list.filter(x=>x&&typeof x.name==='string'&&typeof x.rating==='number').map(x=>({...x,id:ids.has(x.id)?(crypto.randomUUID?.()||String(Date.now()+Math.random())):x.id}));saveEntries([...cleaned,...existing]);toast(`Imported ${cleaned.length} entries.`);}catch{toast('That backup file could not be read.');}};
+window.addEventListener('beforeunload',()=>{if(mapInstance)mapInstance.remove();});
+})();
+</script>
+</body>
+</html>
